@@ -26,6 +26,19 @@ namespace Vizsga_ASP_NET
         {
             services.AddControllers();
             services.AddDbContext<AppDbContext>();
+
+            services.AddCors(option =>
+            {
+                option.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.SetIsOriginAllowed(origin => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .Build();
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +48,8 @@ namespace Vizsga_ASP_NET
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("EnableCORS");
 
             app.UseRouting();
 
